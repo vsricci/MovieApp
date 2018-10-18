@@ -8,6 +8,7 @@ target 'Movie' do
   # Pods for Movie
 	pod 'Alamofire'
 	pod 'RealmSwift'
+	pod 'Kingfisher'
 
   target 'MovieTests' do
     inherit! :search_paths

@@ -30,6 +30,13 @@ class TopMoviesViewModel: TopMoviesProtocol {
             if let resultResponse = result {
                 self.result = resultResponse
             }
+            else {
+                completion("Erro!!!")
+            }
         }
+    }
+    
+    func topMovieNumbers() -> Int {
+        return self.result?.results.count ?? 0
     }
 }

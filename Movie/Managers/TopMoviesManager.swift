@@ -18,7 +18,7 @@ class TopMoviesManager  {
             if let data = result as? Data {
                 if let  result = try? JSONDecoder().decode(Result.self, from: data) {
                     if let jsonString = String(data: data, encoding: .utf8) {
-                        print(jsonString)
+                       // print(jsonString)
                         
                         let encoder = JSONEncoder()
                         encoder.outputFormatting = .prettyPrinted
