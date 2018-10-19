@@ -38,4 +38,33 @@ class TopMoviesManager  {
             
         }
     }
+    
+    static func getDetailsTopMovies(url: String?, params: [String: Any]?, completion: @escaping (DetailMovie?) -> Void) {
+        
+        Request.getFrom(url ?? "", params, headers: nil) { (result, error) in
+            
+            if let data = result as? Data {
+                if let  result = try? JSONDecoder().decode(DetailMovie.self, from: data) {
+                    if let jsonString = String(data: data, encoding: .utf8) {
+                         print(jsonString)
+                        
+                        let encoder = JSONEncoder()
+                        encoder.outputFormatting = .prettyPrinted
+                        
+                        completion(result)
+                    }
+                }
+            }
+            else if let error = error as? Data {
+                //  let apiMessage = ApiError(dataJSON: JSON(error))
+                // completion(nil,apiMessage)
+                
+            } else {
+                // completion(nil, ErrorManager.error(type: .unknown))
+                
+            }
+            
+        }
+    }
 }
+

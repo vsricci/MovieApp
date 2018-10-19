@@ -11,17 +11,17 @@ import RealmSwift
 
 class DetailMovie: Object, Decodable {
     
-    @objc dynamic var adult: String = ""
+    @objc dynamic var adult: Bool = false
     @objc dynamic var backdrop_path: String = ""
     @objc dynamic var budget : Int = 0
-    var genres = ListGenre()
+    var genres = List<Genre>()
     @objc dynamic var homepage : String = ""
-    @objc dynamic var id: String = ""
+    @objc dynamic var id: Int = 0
     @objc dynamic var imbd_id : String = ""
     @objc dynamic var original_language : String = ""
     @objc dynamic var original_title : String = ""
     @objc dynamic var overview : String = ""
-    @objc dynamic var popularity : Int = 0
+    @objc dynamic var popularity : Double = 0
     @objc dynamic var poster_path : String = ""
     var production_companies = List<ProductCompany>()
     var production_country = List<ProductionCountry>()
@@ -35,12 +35,11 @@ class DetailMovie: Object, Decodable {
     @objc dynamic var vote_average : Double = 0
     @objc dynamic var vote_count : Int = 0
     
-    convenience init(adult: String, backdrop_path: String, budget: Int, genres: ListGenre, homepage: String, id: String, imbd_id: String, original_language: String, original_title: String, overview: String, popularity: Int, poster_path: String, productionCompanies: List<ProductCompany>, productionCountries: List<ProductionCountry>, release_date: String, runtime: Int, spokenLanguages: List<SpokenLanguages>, status: String, tagline: String, title: String, video: Bool, voteAverage: Double, voteCount: Int) {
+    convenience init(adult: Bool, backdrop_path: String, budget: Int, homepage: String, id: Int, imbd_id: String, original_language: String, original_title: String, overview: String, popularity: Double, poster_path: String, release_date: String, runtime: Int, status: String, tagline: String, title: String, video: Bool, voteAverage: Double, voteCount: Int, genres: List<Genre>, production_companies: List<ProductCompany>, production_countries: List<ProductionCountry>, spoken_languages: List<SpokenLanguages> ) {
         self.init()
         self.adult = adult
         self.backdrop_path = backdrop_path
         self.budget = budget
-        self.genres = genres
         self.homepage = homepage
         self.id = id
         self.imbd_id = imbd_id
@@ -49,8 +48,9 @@ class DetailMovie: Object, Decodable {
         self.overview = overview
         self.popularity = popularity
         self.poster_path = poster_path
-        self.production_companies = productionCompanies
-        self.production_country = productionCountries
+        self.production_companies = production_companies
+        self.production_country = production_countries
+        self.spoken_languages = spoken_languages
         self.original_title = original_title
         self.genres = genres
         self.backdrop_path = backdrop_path
@@ -96,19 +96,45 @@ class DetailMovie: Object, Decodable {
     
     convenience required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let title = try container.decode(String.self, forKey: .title)
-        let vote_average = try container.decode(Double.self, forKey: .vote_average)
-        let poster_path = try container.decode(String.self, forKey: .poster_path)
-        let original_title = try container.decode(String.self, forKey: .original_title)
-        let gentesArray = try container.decode([Int].self, forKey: .genre_ids)
-        let backdrop_path = try container.decode(String.self, forKey: .backdrop_path)
+        let adult = try container.decode(Bool.self, forKey: .adult)
+        let backdropPath = try container.decode(String.self, forKey: .backdrop_path)
+        let budget = try container.decode(Int.self, forKey: .budget)
+        let genres = try container.decode([Genre].self, forKey: .genres)
+        let homepage = try container.decode(String.self, forKey: .homepage)
+        let id = try container.decode(Int.self, forKey: .id)
+        let imdb_id = try container.decode(String.self, forKey: .imdb_id)
+        let originalLanguage = try container.decode(String.self, forKey: .original_language)
+        let originalTitle = try container.decode(String.self, forKey: .original_title)
         let overview = try container.decode(String.self, forKey: .overview)
-        let release_date = try container.decode(String.self, forKey: .release_date)
+        let popularity = try container.decode(Double.self, forKey: .popularity)
+        let posterPath = try container.decode(String.self, forKey: .poster_path)
+        let productionCompanies = try container.decode([ProductCompany].self, forKey: .production_companies)
+        let productionCountries = try container.decode([ProductionCountry].self, forKey: .production_countries)
+        let releaseDate = try container.decode(String.self, forKey: .release_date)
+       // let revenue = try container.decode(Int.self, forKey: .revenue)
+        let runtime = try container.decode(Int.self, forKey: .runtime)
+        let spokenLanguages = try container.decode([SpokenLanguages].self, forKey: .spoken_languages)
+        let status = try container.decode(String.self, forKey: .status)
+        let tagline = try container.decode(String.self, forKey: .tagline)
+        let title = try container.decode(String.self, forKey: .title)
+        let video = try container.decode(Bool.self, forKey: .video)
+        let voteCount = try container.decode(Int.self, forKey: .voteCount)
+        let vote_average = try container.decode(Double.self, forKey: .voteAverate)
         
         
-        let genre_ids = List<Int>()
-        genre_ids.append(objectsIn: gentesArray)
-        self.init(title: title, vote_average: vote_average, poster_path: poster_path, original_title: original_title, genres: genre_ids, backdrop_path: backdrop_path, overview: overview, release_date: release_date)
+        let genre = List<Genre>()
+        genre.append(objectsIn: genres)
+        
+        let productCompany = List<ProductCompany>()
+        productCompany.append(objectsIn: productionCompanies)
+        
+        let productCountry = List<ProductionCountry>()
+        productCountry.append(objectsIn: productionCountries)
+        
+        let spokenLanguage = List<SpokenLanguages>()
+        spokenLanguage.append(objectsIn: spokenLanguages)
+        
+        self.init(adult: adult, backdrop_path: backdropPath, budget: budget, homepage: homepage, id: id, imbd_id: imdb_id, original_language: originalLanguage, original_title: originalTitle, overview: overview, popularity: popularity, poster_path: posterPath, release_date: releaseDate, runtime: runtime, status: status, tagline: tagline, title: title, video: video, voteAverage: vote_average, voteCount: voteCount, genres: genre, production_companies: productCompany, production_countries: productCountry, spoken_languages: spokenLanguage)
         
     }
 }

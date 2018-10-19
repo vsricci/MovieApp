@@ -15,6 +15,7 @@ class SpokenLanguages: Object, Decodable {
     @objc dynamic var name : String = ""
     
     convenience init(iso: String, name: String) {
+        self.init()
         self.iso_639_1 = iso
         self.name = name
     }

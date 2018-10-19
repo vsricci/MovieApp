@@ -14,6 +14,7 @@ class ListSpokenLanguages : Object, Decodable {
     var spoken_languages = List<SpokenLanguages>()
     
     convenience init(spoken_languages:  List<SpokenLanguages>) {
+        self.init()
         self.spoken_languages = spoken_languages
     }
     

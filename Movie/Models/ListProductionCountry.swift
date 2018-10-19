@@ -14,6 +14,7 @@ class ListProductionCountry : Object, Decodable {
     var production_countries = List<ProductionCountry>()
     
     convenience init(production_companies:  List<ProductionCountry>) {
+        self.init()
         self.production_countries = production_companies
     }
     

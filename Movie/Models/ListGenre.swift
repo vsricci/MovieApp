@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import RealmSwift
 class ListGenre: Object, Decodable {
     
     var genres = List<Genre>()
@@ -25,8 +25,8 @@ class ListGenre: Object, Decodable {
     
     convenience required init(from decoder: Decoder) throws {
         
-        let container = try! decoder.container(keyedBy: CodingKeys.self)
-        let genresArray = try! container.decode([Genre].self, forKey: .genres)
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        let genresArray = try container.decode([Genre].self, forKey: .genres)
         let genre = List<Genre>()
         genre.append(objectsIn: genresArray)
         self.init(genres: genre)

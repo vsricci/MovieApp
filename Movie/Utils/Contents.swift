@@ -21,6 +21,7 @@ let imageBegginURL = "https://image.tmdb.org/t/p/w500"
 enum URLS : String {
     
     case popularMoviesURL = "https://api.themoviedb.org/3/movie/popular?api_key="
+    case detailMovieURL = "https://api.themoviedb.org/3/movie/"
     case genresListURL = "https://api.themoviedb.org/3/genre/movie/list?api_key="
     
 }

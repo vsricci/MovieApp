@@ -14,6 +14,7 @@ class ListProductyCompany : Object, Decodable {
     var production_companies = List<ProductCompany>()
     
     convenience init(production_companies:  List<ProductCompany>) {
+        self.init()
         self.production_companies = production_companies
     }
    

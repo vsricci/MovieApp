@@ -32,7 +32,7 @@ class TopMoviesViewController: UIViewController {
          self.configTopMoviesCollectionView()
         
         topMoviesViewModel = TopMoviesViewModel()
-        topMoviesViewModel?.getTopMovies(completion: { (error) in
+        topMoviesViewModel?.getDetailsTopMovies(completion: { (error) in
             print(error)
         })
        
