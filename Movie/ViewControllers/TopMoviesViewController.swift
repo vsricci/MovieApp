@@ -120,6 +120,8 @@ class TopMoviesViewController: UIViewController {
     {
         print("-->> Pull to Refresh <<--")
         self.topMoviesViewModel?.list.removeAll()
+        self.filterTopMovies.removeAll()
+        self.topMovies.removeAll()
         self.topMoviesViewModel?.currentPage = 1
         getTopMovies(currentPage: 1)
     }
