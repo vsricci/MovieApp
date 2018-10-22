@@ -7,34 +7,58 @@
 //
 
 import Foundation
-
+import RealmSwift
 
 protocol TopMoviesProtocol {
     var topMoviesDidChange : ((TopMoviesProtocol) -> Void)? { get set }
-    var result : Result? { get }
+    var results : Result? { get }
 }
 
 class TopMoviesViewModel: TopMoviesProtocol {
     var topMoviesDidChange: ((TopMoviesProtocol) -> Void)?
     
-    var result: Result? {
+    var results: Result? {
         didSet {
             self.topMoviesDidChange?(self)
         }
+    }
+    var currentPage = 1
+    var language = ""
+    
+    required init()
+    {
+        results = Result()
+        
     }
     
-    var detailMovie: DetailMovie? {
-        didSet {
-            self.topMoviesDidChange?(self)
-        }
-    }
+    var list = List<Movie>()
     
      func getTopMovies(completion: @escaping (String) -> Void) {
-        let url : String = URLS.popularMoviesURL.rawValue + API_KEY
+        let url : String = URLS.popularMoviesURL.rawValue + API_KEY + "&language=\(language)&page=\(currentPage)"
         TopMoviesManager.getTopManager(url: url, params: nil) { (result) in
             
             if let resultResponse = result {
-                self.result = resultResponse
+                self.results = resultResponse
+                if resultResponse.page == 1
+                {
+                    self.results = resultResponse
+                    for movies in (self.results?.results)! {
+                        self.list.append(movies)
+                    }
+                }
+                else
+                {
+                    let oldList = self.results
+                    oldList?.results = resultResponse.results
+                    oldList?.page = resultResponse.page
+
+                    self.results = oldList
+                    for movies in (self.results?.results)! {
+                        self.list.append(movies)
+                    }
+                }
+                
+                self.results?.results = self.list
             }
             else {
                 completion("Erro!!!")
@@ -42,21 +66,20 @@ class TopMoviesViewModel: TopMoviesProtocol {
         }
     }
     
-    func getDetailsTopMovies(completion: @escaping (String) -> Void) {
-        let id = 335983
-        let url = URLS.detailMovieURL.rawValue + "\(id)?api_key=" + API_KEY
-        TopMoviesManager.getDetailsTopMovies(url: url, params: nil) { (result) in
-            
-            if let resultResponse = result {
-                self.detailMovie = resultResponse
-            }
-            else {
-                completion("Erro!!!")
-            }
-        }
+    
+    func getFavoritePopularMovies() -> Results<DetailMovie> {
+        
+        let realm = try! Realm()
+        
+        realm.beginWrite()
+        let listResults = realm.objects(DetailMovie.self)
+        try! realm.commitWrite()
+        
+        return listResults
     }
     
     func topMovieNumbers() -> Int {
-        return self.result?.results.count ?? 0
+        return self.results?.results.count ?? 0
     }
+    
 }

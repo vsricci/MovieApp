@@ -20,7 +20,7 @@ class Request : NSObject {
                 print("STATUSCODE: \(String(describing: response.response?.statusCode))")
                 switch response.result {
                 case .success:
-                    
+                    print(response.result)
                     completion(response.data, nil)
                     break
                     

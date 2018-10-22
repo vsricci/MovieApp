@@ -12,5 +12,6 @@ class TopMovieCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var topMovieImage: UIImageView!
     @IBOutlet weak var topNameMovieLabel: UILabel!
+    @IBOutlet weak var favoriteTopMovieImageView: UIImageView!
     
 }

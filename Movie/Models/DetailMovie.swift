@@ -9,62 +9,39 @@
 import Foundation
 import RealmSwift
 
+
 class DetailMovie: Object, Decodable {
     
     @objc dynamic var adult: Bool = false
-    @objc dynamic var backdrop_path: String = ""
-    @objc dynamic var budget : Int = 0
+    @objc dynamic var backdrop_path: String?
+    @objc dynamic var budget: Int = 0
     var genres = List<Genre>()
-    @objc dynamic var homepage : String = ""
+    @objc dynamic var homepage: String?
     @objc dynamic var id: Int = 0
-    @objc dynamic var imbd_id : String = ""
-    @objc dynamic var original_language : String = ""
-    @objc dynamic var original_title : String = ""
-    @objc dynamic var overview : String = ""
-    @objc dynamic var popularity : Double = 0
-    @objc dynamic var poster_path : String = ""
-    var production_companies = List<ProductCompany>()
-    var production_country = List<ProductionCountry>()
-    @objc dynamic var release_date : String = ""
-    @objc dynamic var runtime : Int = 0
-    var spoken_languages = List<SpokenLanguages>()
-    @objc dynamic var status : String = ""
-    @objc dynamic var tagline : String = ""
-    @objc dynamic var title : String = ""
+    @objc dynamic var imdb_id : String?
+    @objc dynamic var original_language : String?
+    @objc dynamic var original_title : String?
+    @objc dynamic var overview : String?
+    @objc dynamic var popularity : Double = 0.0
+    @objc dynamic var poster_path : String?
+    var productionCompanies = List<ProductionCompany>()
+    var productionCountries = List<ProductionCountry>()
+    @objc dynamic var release_date : String?
+    @objc dynamic var runtime: Int = 0
+    @objc dynamic var revenue : Int = 0
+    var spokenLanguages = List<SpokenLanguages>()
+    @objc dynamic var status : String?
+    @objc dynamic var tagline : String? = ""
+    @objc dynamic var title : String?
     @objc dynamic var video : Bool = false
-    @objc dynamic var vote_average : Double = 0
+    @objc dynamic var vote_average : Double = 0.0
     @objc dynamic var vote_count : Int = 0
     
-    convenience init(adult: Bool, backdrop_path: String, budget: Int, homepage: String, id: Int, imbd_id: String, original_language: String, original_title: String, overview: String, popularity: Double, poster_path: String, release_date: String, runtime: Int, status: String, tagline: String, title: String, video: Bool, voteAverage: Double, voteCount: Int, genres: List<Genre>, production_companies: List<ProductCompany>, production_countries: List<ProductionCountry>, spoken_languages: List<SpokenLanguages> ) {
-        self.init()
-        self.adult = adult
-        self.backdrop_path = backdrop_path
-        self.budget = budget
-        self.homepage = homepage
-        self.id = id
-        self.imbd_id = imbd_id
-        self.original_title = original_title
-        self.original_language = original_language
-        self.overview = overview
-        self.popularity = popularity
-        self.poster_path = poster_path
-        self.production_companies = production_companies
-        self.production_country = production_countries
-        self.spoken_languages = spoken_languages
-        self.original_title = original_title
-        self.genres = genres
-        self.backdrop_path = backdrop_path
-        self.overview = overview
-        self.release_date = release_date
-        self.runtime = runtime
-        self.status = status
-        self.tagline = tagline
-        self.title = title
-        self.video = video
-        self.vote_average = voteAverage
-        self.vote_count = voteCount
-        
-    }
+//    override class func primaryKey() -> String? {
+//        return "id"
+//    }
+    
+
     
     enum CodingKeys : String, CodingKey {
         
@@ -80,61 +57,58 @@ class DetailMovie: Object, Decodable {
         case overview
         case popularity
         case poster_path
-        case production_companies
-        case production_countries
+        case productionCompanies = "production_companies"
+        case productionCountries = "production_countries"
         case release_date
         case revenue
         case runtime
-        case spoken_languages
+        case spokenLanguages = "spoken_languages"
         case status
         case tagline
         case title
         case video
-        case voteAverate
-        case voteCount
+        case vote_average
+        case vote_count
     }
     
+    
+    
     convenience required init(from decoder: Decoder) throws {
+        self.init()
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        let adult = try container.decode(Bool.self, forKey: .adult)
-        let backdropPath = try container.decode(String.self, forKey: .backdrop_path)
-        let budget = try container.decode(Int.self, forKey: .budget)
-        let genres = try container.decode([Genre].self, forKey: .genres)
-        let homepage = try container.decode(String.self, forKey: .homepage)
-        let id = try container.decode(Int.self, forKey: .id)
-        let imdb_id = try container.decode(String.self, forKey: .imdb_id)
-        let originalLanguage = try container.decode(String.self, forKey: .original_language)
-        let originalTitle = try container.decode(String.self, forKey: .original_title)
-        let overview = try container.decode(String.self, forKey: .overview)
-        let popularity = try container.decode(Double.self, forKey: .popularity)
-        let posterPath = try container.decode(String.self, forKey: .poster_path)
-        let productionCompanies = try container.decode([ProductCompany].self, forKey: .production_companies)
-        let productionCountries = try container.decode([ProductionCountry].self, forKey: .production_countries)
-        let releaseDate = try container.decode(String.self, forKey: .release_date)
-       // let revenue = try container.decode(Int.self, forKey: .revenue)
-        let runtime = try container.decode(Int.self, forKey: .runtime)
-        let spokenLanguages = try container.decode([SpokenLanguages].self, forKey: .spoken_languages)
-        let status = try container.decode(String.self, forKey: .status)
-        let tagline = try container.decode(String.self, forKey: .tagline)
-        let title = try container.decode(String.self, forKey: .title)
-        let video = try container.decode(Bool.self, forKey: .video)
-        let voteCount = try container.decode(Int.self, forKey: .voteCount)
-        let vote_average = try container.decode(Double.self, forKey: .voteAverate)
-        
-        
-        let genre = List<Genre>()
-        genre.append(objectsIn: genres)
-        
-        let productCompany = List<ProductCompany>()
-        productCompany.append(objectsIn: productionCompanies)
-        
-        let productCountry = List<ProductionCountry>()
-        productCountry.append(objectsIn: productionCountries)
-        
-        let spokenLanguage = List<SpokenLanguages>()
-        spokenLanguage.append(objectsIn: spokenLanguages)
-        
-        self.init(adult: adult, backdrop_path: backdropPath, budget: budget, homepage: homepage, id: id, imbd_id: imdb_id, original_language: originalLanguage, original_title: originalTitle, overview: overview, popularity: popularity, poster_path: posterPath, release_date: releaseDate, runtime: runtime, status: status, tagline: tagline, title: title, video: video, voteAverage: vote_average, voteCount: voteCount, genres: genre, production_companies: productCompany, production_countries: productCountry, spoken_languages: spokenLanguage)
+         self.adult = try container.decodeIfPresent(Bool.self, forKey: .adult) ?? Bool()
+        self.backdrop_path = try container.decodeIfPresent(String.self, forKey: .backdrop_path)
+         self.budget = try container.decodeIfPresent(Int.self, forKey: .budget) ?? 0
+         let genreArray = try container.decodeIfPresent([Genre].self, forKey: .genres) ?? [Genre()]
+         self.homepage = try container.decodeIfPresent(String.self, forKey: .homepage)
+         self.id = try container.decodeIfPresent(Int.self, forKey: .id) ?? 0
+         self.imdb_id = try container.decodeIfPresent(String.self, forKey: .imdb_id)
+         self.original_language = try container.decodeIfPresent(String.self, forKey: .original_language)
+         self.original_title = try container.decodeIfPresent(String.self, forKey: .original_title)
+         self.overview = try container.decodeIfPresent(String.self, forKey: .overview)
+         self.popularity = try container.decodeIfPresent(Double.self, forKey: .popularity) ?? 0.0
+         self.poster_path = try container.decodeIfPresent(String.self, forKey: .poster_path)
+        let productionCompaniesArray = try container.decodeIfPresent([ProductionCompany].self, forKey: .productionCompanies) ?? [ProductionCompany()]
+        let productionCountriesArray = try container.decodeIfPresent([ProductionCountry].self, forKey: .productionCountries) ?? [ProductionCountry()]
+        self.release_date = try container.decodeIfPresent(String.self, forKey: .release_date)
+        self.revenue = try container.decodeIfPresent(Int.self, forKey: .revenue) ?? 0
+        self.runtime = try container.decodeIfPresent(Int.self, forKey: .runtime) ?? 0
+        let spokenLanguagesArray = try container.decodeIfPresent([SpokenLanguages].self, forKey: .spokenLanguages) ?? [SpokenLanguages()]
+       self.status = try container.decodeIfPresent(String.self, forKey: .status)
+       self.tagline = try container.decodeIfPresent(String.self, forKey: .tagline)
+       self.title = try container.decodeIfPresent(String.self, forKey: .title)
+       self.video = try container.decodeIfPresent(Bool.self, forKey: .video) ?? Bool()
+       self.vote_count = try container.decodeIfPresent(Int.self, forKey: .vote_count) ?? 0
+       self.vote_average = try container.decodeIfPresent(Double.self, forKey: .vote_average) ?? 0.0
+
+
+        genres.append(objectsIn: genreArray)
+        productionCompanies.append(objectsIn: productionCompaniesArray)
+        productionCountries.append(objectsIn: productionCountriesArray)
+        spokenLanguages.append(objectsIn: spokenLanguagesArray)
+
         
     }
+    
+   
 }

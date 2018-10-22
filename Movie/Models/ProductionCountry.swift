@@ -9,28 +9,34 @@
 import Foundation
 import RealmSwift
 
-class ProductionCountry : Object, Decodable {
+class ProductionCountry : Object, Codable {
     
-    @objc dynamic var iso_3166_1: String = ""
-    @objc dynamic var name: String = ""
+    @objc dynamic var iso: String?
+    @objc dynamic var name: String?
+  
     
-    convenience init(iso: String, name: String) {
-        self.init()
-        self.iso_3166_1 = iso
-        self.name = name
-    }
+//    override class func primaryKey() -> String? {
+//        return "name"
+//    }
+    
+    
+//    convenience init(iso_3166_1: String, name: String) {
+//        self.init()
+//        self.iso_3166_1 = iso_3166_1
+//        self.name = name
+//    }
     
     
     enum CodingKeys : String, CodingKey {
-        case iso_3166_1
+        case iso = "iso_3166_1"
         case name
     }
     
-    convenience required init(from decoder: Decoder) throws {
-        
-        let container = try! decoder.container(keyedBy: CodingKeys.self)
-        let iso = try! container.decode(String.self, forKey: .iso_3166_1)
-        let name = try! container.decode(String.self, forKey: .name)
-        self.init(iso: iso, name: name)
-    }
+//    convenience required init(from decoder: Decoder) throws {
+//
+//        let container = try! decoder.container(keyedBy: CodingKeys.self)
+//        let iso_3166_1 = try container.decode(String.self, forKey: .iso_3166_1)
+//        let name = try container.decode(String.self, forKey: .name)
+//        self.init(iso_3166_1: iso_3166_1, name: name)
+//    }
 }

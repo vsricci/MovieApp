@@ -7,7 +7,7 @@
 //
 
 import Foundation
-
+import RealmSwift
 
 class TopMoviesManager  {
     
@@ -44,13 +44,14 @@ class TopMoviesManager  {
         Request.getFrom(url ?? "", params, headers: nil) { (result, error) in
             
             if let data = result as? Data {
+              
                 if let  result = try? JSONDecoder().decode(DetailMovie.self, from: data) {
                     if let jsonString = String(data: data, encoding: .utf8) {
                          print(jsonString)
-                        
+
                         let encoder = JSONEncoder()
                         encoder.outputFormatting = .prettyPrinted
-                        
+
                         completion(result)
                     }
                 }

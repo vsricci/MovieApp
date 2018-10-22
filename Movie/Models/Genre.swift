@@ -12,20 +12,22 @@ import RealmSwift
 class Genre : Object, Codable {
     
     @objc dynamic var id: Int = 0
-    @objc dynamic var name : String = ""
+    @objc dynamic var name : String?
+    
+//    override class func primaryKey() -> String? {
+//        return "id"
+//    }
     
     
-    
-    
-    convenience init(id: Int, name: String) {
-        self.init()
-        self.id = id
-        self.name = name
-        
-        
-        
-    }
-    
+//    convenience init(id: Int, name: String) {
+//        self.init()
+//        self.id = id
+//        self.name = name
+//
+//
+//
+//    }
+//
     enum CodingKeys : String, CodingKey {
         
         case id
@@ -34,11 +36,11 @@ class Genre : Object, Codable {
         
     }
     
-    convenience required init(from decoder: Decoder) throws {
-        
-        let container = try! decoder.container(keyedBy: CodingKeys.self)
-        let id = try! container.decode(Int.self, forKey: .id)
-        let name = try! container.decode(String.self, forKey: .name)
-        self.init(id: id, name: name)
-    }
+//    convenience required init(from decoder: Decoder) throws {
+//        
+//        let container = try! decoder.container(keyedBy: CodingKeys.self)
+//        let id = try container.decode(Int.self, forKey: .id)
+//        let name = try container.decode(String.self, forKey: .name)
+//        self.init(id: id, name: name)
+//    }
 }
