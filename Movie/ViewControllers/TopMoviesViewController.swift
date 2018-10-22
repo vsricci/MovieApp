@@ -13,9 +13,6 @@ class TopMoviesViewController: UIViewController {
     
     @IBOutlet weak var topMoviesCollectionView: UICollectionView!
     
-
-   
-    // var currentPage = 20
      var isLoading:Bool = false
      var refreshControl: UIRefreshControl!
      var footerView: RefreshCollectionViewCell?
@@ -146,7 +143,7 @@ class TopMoviesViewController: UIViewController {
     //MARK: - Navigation
     
     func navtoDetailTopMovie(movieID: Int?) {
-        let detailTopMovieVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "DetailTopMovieIdentifier") as! DetailsTopMoviesViewController
+        let detailTopMovieVC = UIStoryboard(name: Storyboards.Main.rawValue, bundle: nil).instantiateViewController(withIdentifier: StoryboardIdentifier.DetailTopMovieIdentifier.rawValue) as! DetailsTopMoviesViewController
         detailTopMovieVC.movieID = movieID
         self.navigationController?.pushViewController(detailTopMovieVC, animated: true)
         
@@ -164,7 +161,7 @@ extension TopMoviesViewController : UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "topMovieCell", for: indexPath) as? TopMovieCollectionViewCell {
+        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier:   IdentifierCell.topMovie.rawValue, for: indexPath) as? TopMovieCollectionViewCell {
            
                 let topMovie = self.filterTopMovies[indexPath.row]
                 cell.topMovieImage.download(image: imageBegginURL + (topMovie.poster_path)!, placeholder: "")
@@ -175,7 +172,7 @@ extension TopMoviesViewController : UICollectionViewDelegate {
                         print(favoriteMovieItem.id )
                         DispatchQueue.main.async {
                             cell.favoriteTopMovieImageView.isHidden = false
-                            cell.favoriteTopMovieImageView.image = UIImage(named: "favorite_full_icon")
+                            cell.favoriteTopMovieImageView.image = UIImage(named: Images.favorite.rawValue)
                         }
                     }else {
                         cell.favoriteTopMovieImageView.isHidden = true
@@ -197,12 +194,12 @@ extension TopMoviesViewController : UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter {
-            let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "refreshCollectionViewCell", for: indexPath) as! RefreshCollectionViewCell
+            let aFooterView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: IdentifierCell.refresh.rawValue, for: indexPath) as! RefreshCollectionViewCell
             self.footerView = aFooterView
             self.footerView?.backgroundColor = UIColor.clear
             return aFooterView
         } else {
-            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "refreshCollectionViewCell", for: indexPath)
+            let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: IdentifierCell.refresh.rawValue, for: indexPath)
             return headerView
         }
     }
@@ -218,47 +215,6 @@ extension TopMoviesViewController : UICollectionViewDelegate {
             self.footerView?.stopAnimate()
         }
     }
-    
-    // MARK: - Private instance methods
-    
-//    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
-//
-//       // if scope == "All" {
-//            filterTopMovies = (self.topMoviesViewModel?.results?.results.filter({( movie : Movie) -> Bool in
-//                let doesCategoryMatch = (scope == "All") || (movie.original_title == scope)
-//
-//
-//                if searchBarIsEmpty() {
-//                    return doesCategoryMatch
-//                } else  {
-//                    return doesCategoryMatch && movie.original_title?.lowercased().contains(searchText.lowercased()) ?? Bool()
-//                }
-//            }))!
-    //    }
-//        else {
-//            favoriteMovie = (self.favoriteTopMovie?.filter({( movie : DetailMovie) -> Bool in
-//                let doesCategoryMatch = (scope == "Favorite") || (movie.original_title == scope)
-//
-//
-//                if searchBarIsEmpty() {
-//                    return doesCategoryMatch
-//                } else  {
-//                    return doesCategoryMatch && movie.original_title?.lowercased().contains(searchText.lowercased()) ?? Bool()
-//                }
-//            }))!
-//        }
-       
-//        topMoviesCollectionView.reloadData()
-//    }
-    
-//    func searchBarIsEmpty() -> Bool {
-//        return searchController.searchBar.text?.isEmpty ?? true
-//    }
-//
-//    func isFiltering() -> Bool {
-//        let searchBarScopeIsFiltering = searchController.searchBar.selectedScopeButtonIndex != 0
-//        return searchController.isActive && (!searchBarIsEmpty() || searchBarScopeIsFiltering)
-//    }
 }
 
 
@@ -310,7 +266,7 @@ extension TopMoviesViewController: UIScrollViewDelegate {
         if pullHeight >= 0.0
         {
             if (self.footerView?.isAnimatingFinal)! {
-                print("load more trigger")
+                //print("load more trigger")
                 self.isLoading = true
                 self.footerView?.startAnimate()
                 Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { (timer:Timer) in
@@ -339,20 +295,8 @@ extension TopMoviesViewController: UISearchBarDelegate {
     }
 
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        print("tsete")
         self.topMoviesCollectionView.reloadData()
     }
     
-//    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-//        filterContentForSearchText(searchBar.text!, scope: searchBar.scopeButtonTitles![selectedScope])
-//    }
-}
 
-//extension TopMoviesViewController: UISearchResultsUpdating {
-//    // MARK: - UISearchResultsUpdating Delegate
-//    func updateSearchResults(for searchController: UISearchController) {
-//        let searchBar = searchController.searchBar
-//        let scope = searchBar.scopeButtonTitles![searchBar.selectedScopeButtonIndex]
-//        filterContentForSearchText(searchController.searchBar.text!, scope: scope)
-//    }
-//}
+}

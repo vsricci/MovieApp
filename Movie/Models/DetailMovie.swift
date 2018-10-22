@@ -37,11 +37,6 @@ class DetailMovie: Object, Decodable {
     @objc dynamic var vote_average : Double = 0.0
     @objc dynamic var vote_count : Int = 0
     
-//    override class func primaryKey() -> String? {
-//        return "id"
-//    }
-    
-
     
     enum CodingKeys : String, CodingKey {
         

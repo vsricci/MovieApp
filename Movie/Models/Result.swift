@@ -17,11 +17,6 @@ class Result: Object, Decodable {
     @objc dynamic var totalPages: Int = 0
     var results = List<Movie>()
     
-    
-//    override class func primaryKey() -> String? {
-//        return "page"
-//    }
-    
     enum CodingKeys : String, CodingKey {
         case page
         case totalResults = "total_results"

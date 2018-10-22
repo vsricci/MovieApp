@@ -20,13 +20,7 @@ class Movie : Object, Decodable{
     @objc dynamic var backdrop_path : String?
     @objc dynamic var overview: String?
     @objc dynamic var release_date : String?
-    
-//    override class func primaryKey() -> String? {
-//        return "id"
-//    }
-    
-    
-    
+        
     enum CodingKeys : String, CodingKey {
         
         case id

@@ -96,12 +96,12 @@ class DetailsTopMoviesViewController: UIViewController {
         if let detailTopMovie = self.detailTopMovieViewModel?.detailsTopMovie {
             self.detailTopMoieImageView.download(image: imageBegginURL + (detailTopMovie.backdrop_path ?? ""), placeholder: "")
             if isFavorite() == true {
-                self.favoriteTopMovieButton.setImage(UIImage(named: "favorite_full_icon"), for: .normal)
+                self.favoriteTopMovieButton.setImage(UIImage(named: Images.favorite.rawValue), for: .normal)
             }
             self.detailTopMovieNameLabel.text = detailTopMovie.title
             self.detailOverviewTopMovieLabel.text = detailTopMovie.overview
-            self.numberOfChannelsLabel.text = "Canis: \(detailTopMovie.revenue)"
-            self.numberOfViwsLabel.text = "Visualizações: \(detailTopMovie.runtime)"
+            self.numberOfChannelsLabel.text = "\(detailTopMovie.vote_count)"
+            self.numberOfViwsLabel.text = "\(detailTopMovie.vote_average)"
             
         }
     }
